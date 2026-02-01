@@ -12,7 +12,31 @@ public class OrderEngine {
         }
     }
 
+    private boolean isIdDuplicate(String id) {
+        if (currentOrder != null && currentOrder.id.equals(id)) {
+            return true;
+        }
+
+        for (int p = 1; p <= 5; p++) {
+            MyQueue q = queues[p];
+            int index = q.getFront();
+            for (int i = 0; i < q.getSize(); i++) {
+                if (q.getData()[index].id.equals(id)) {
+                    return true;
+                }
+                index = (index + 1) % q.getData().length;
+            }
+        }
+
+        return false; 
+    }
+
     public void addOrder(String id, int priority, int items) {
+        if (isIdDuplicate(id)) {
+            System.out.println("Error: Order ID already exists!");
+            return;
+        }
+        
         Order o = new Order(id, priority, items, currentTime);
         queues[priority].enqueue(o);
         System.out.println("Order " + id + " added at priority " + priority);
@@ -45,4 +69,25 @@ public class OrderEngine {
             }
         }
     }
+
+    public void processAll() {
+        while (true) {
+            boolean allEmpty = true;
+            for (int p = 1; p <= 5; p++) {
+                if (!queues[p].isEmpty()) {
+                    allEmpty = false;
+                    break;
+                }
+            }
+
+            if (allEmpty && currentOrder == null) {
+                System.out.println("All orders processed!");
+                break;
+            }
+            processOneTick();
+        }
+    }
+
+
+
 }

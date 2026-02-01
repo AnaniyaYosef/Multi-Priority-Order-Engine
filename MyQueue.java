@@ -11,6 +11,11 @@ public class MyQueue {
         size = 0;
     }
 
+    public int getFront(){return this.front;}
+    public int getRear(){return this.rear;}
+    public int getSize(){return this.size;}
+    public Order[] getData(){return this.data;}
+
     public boolean isEmpty() {
         return size == 0;
     }
