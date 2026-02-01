@@ -1,0 +1,7 @@
+Order: -> Class 
+    id
+    priority
+    arrival time
+    item count
+    remaining processing time
+    waiting time
